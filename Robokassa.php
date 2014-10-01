@@ -102,17 +102,17 @@ class Robokassa extends CApplicationComponent
         return false;
     }
 
-    private function checkResultSignature($OutSum, $InvId, $SignatureValue)
+    public function checkResultSignature($OutSum, $InvId, $SignatureValue, $checkType = 0)
     {
         $keys = array(
             $OutSum,
             $InvId,
-            $this->sMerchantPass2,
+            $checkType ? $this->sMerchantPass1 : $this->sMerchantPass2,
         );
 
         $sign = strtoupper(md5(implode(':', $keys)));
 
-        if ($SignatureValue == $sign)
+        if (strtoupper($SignatureValue) == $sign)
             return true;
 
         return false;
