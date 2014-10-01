@@ -25,14 +25,16 @@ class Robokassa extends CApplicationComponent
             ? 'http://test.robokassa.ru/Index.aspx?'
             : 'https://merchant.roboxchange.com/Index.aspx?';
 
-        $url .= "MrchLogin={$this->sMerchantLogin}&";
-        $url .= "OutSum={$nOutSum}&";
-        $url .= "InvId={$nInvId}&";
-        $url .= "Desc={$sInvDesc}&";
-        $url .= "SignatureValue={$sign}&";
-        $url .= "IncCurrLabel={$this->sIncCurrLabel}&";
-        $url .= "Email={$sUserEmail}&";
-        $url .= "Culture={$this->sCulture}";
+        $url .= http_build_query(array(
+            "MrchLogin" => $this->sMerchantLogin,
+            "OutSum" => $nOutSum,
+            "InvId" => $nInvId,
+            "Desc" => $sInvDesc,
+            "SignatureValue" => $sign,
+            "IncCurrLabel" => $this->sIncCurrLabel,
+            "Email" => $sUserEmail,
+            "Culture" => $this->sCulture,
+        ));
 
         Yii::app()->controller->redirect($url);
     }
