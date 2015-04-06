@@ -71,7 +71,7 @@ class Robokassa extends CApplicationComponent
             $valid = false;
         }
 
-        if (!$valid || $this->_order->{$this->priceField} != $OutSum) {
+        if (!$valid || !$this->checkOutSum($OutSum)) {
             $this->params = array('reason' => 'Order price error');
             $valid = false;
         }
@@ -88,6 +88,11 @@ class Robokassa extends CApplicationComponent
         }
 
         echo "OK{$InvId}\n";
+    }
+
+    private function checkOutSum($OutSum)
+    {
+        return (round((double) $this->_order->{$this->priceField}, 2) === round((double) $OutSum, 2));
     }
 
     private function isOrderExists($id)
